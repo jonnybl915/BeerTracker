@@ -5,7 +5,10 @@
     <title>My Beer</title>
 </head>
 <body>
-Welcome {{name}}!
+<form action="/logout" method="post" style="inline-block;">
+Welcome {{name}}!       <button type="submit">Logout</button>
+</form>
+<br>
 <form action="/create-entry" method="post">
     <input type="text" name="beerName" placeholder="Beer Name"/>
     <input type="text" name="breweryName" placeholder="Brewery Name"/>
@@ -17,16 +20,14 @@ Welcome {{name}}!
 
 <ol>
     {{#beers}}
-    <li>{{beerName}} {{breweryName}} {{beerStyle}} {{abv}} {{comment}} </li>
+    <li>{{beerName}} {{breweryName}} {{beerStyle}} {{abv}} {{comment}} <form action="/delete-entryItem" method="post">          <button type="submit">Delete</button> </form>
+    </li>
     {{/beers}}
 </ol>
 
 
 
-<br>
-<br>
-<form action="/logout" method="post">
-    <button type="submit">Logout</button>
-</form>
+
+
 </body>
 </html>

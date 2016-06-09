@@ -9,17 +9,26 @@ public class Beer {
     String beerStyle;
     float abv;
     String comment;
-
-    public Beer(String beerName, String breweryName, String beerStyle, float abv, String comment) {
+    int id;
+    public Beer(String beerName, String breweryName, String beerStyle, float abv, String comment, int id) {
         this.beerName = beerName;
         this.breweryName = breweryName;
         this.beerStyle = beerStyle;
         this.abv = abv;
         this.comment = comment;
+        this.id = id;
     }
 
     public Beer() {
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getBeerName() {

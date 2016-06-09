@@ -70,7 +70,6 @@ public class Main {
                 (request, response) -> {
                     Session session = request.session();
                     String username = session.attribute("username");
-                   // HashMap map = new HashMap();
                     User user = userList.get(username);
                     if(username == null){
                         throw new Exception("you must log in first");
@@ -79,10 +78,28 @@ public class Main {
                     beer.setBeerName(request.queryParams("beerName"));
                     beer.setBreweryName(request.queryParams("breweryName"));
                     beer.setBeerStyle(request.queryParams("beerStyle"));
-                    beer.setAbv(Float.valueOf(request.queryParams("abv")));
+                    beer.setAbv(Float.valueOf(request.queryParams("abv"))); //need to allow for this field to be empty
                     beer.setComment(request.queryParams("comment"));
-                    //map.put(beer, user.beerList);
                     user.beerList.add(beer);
+                    response.redirect("/");
+                    return "";
+                }
+        );
+        Spark.post(
+                "/delete-entryItem",
+                (request, response) -> {
+                    Session session = request.session();
+                    String username = session.attribute("username");
+                    User user = userList.get(username);
+                    if(username == null){
+                        throw new Exception("you must log in first");
+                    }
+                    int entryItemIndex = Integer.valueOf(request.queryParams("id"));
+                    if (entryItemIndex < 0 || entryItemIndex - 1 >= user.beerList.size()){
+                        throw new Exception("Invalid id");
+                    }
+                    user.beerList.remove(entryItemIndex -1);
+
                     response.redirect("/");
                     return "";
                 }
