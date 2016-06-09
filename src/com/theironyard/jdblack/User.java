@@ -12,9 +12,8 @@ public class User {
     String password;
     ArrayList<Beer> beerList = new ArrayList<>();
 
-    public User(String username, String password, ArrayList<Beer>beerList) {
+    public User(String username, String password) {
         this.username = username;
         this.password = password;
-        this.beerList = beerList;
     }
 }

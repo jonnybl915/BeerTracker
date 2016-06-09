@@ -23,13 +23,36 @@ public class Main {
                         return new ModelAndView(map, "login.html");
                     }
                     else {
+                        User user = userList.get(username);
                         map.put("name", username);
-                        map.put("users", userList);
+                        map.put("beers", user.beerList);
                         return new ModelAndView(map, "beerList.html");
                     }
                 },
                 new MustacheTemplateEngine()
         );
+        Spark.post(
+                "/login",
+                (request, response) -> {
+                    String name = request.queryParams("username");
+                    String pass = request.queryParams("password");
+                    if (name == null || pass == null){
+                        response.redirect("/");
+                    }
+                    User user = userList.get(name);
+                    if (user == null) {
+                        user = new User(name, pass);
+                        userList.put(name, user);
+                    }
+                    else if(!pass.equals(user.password)) {
+                        throw new Exception("Wrong Password"); //make this redirect***
+                    }
+                    Session session = request.session();
+                    session.attribute("username", name);
 
+                    response.redirect("/");
+                    return "";
+                }
+        );
     }
 }
