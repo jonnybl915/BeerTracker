@@ -20,7 +20,7 @@ public class Main {
 
                     HashMap map = new HashMap();
                     if (username == null){
-                        return new ModelAndView(map, "login.html");
+                        return new ModelAndView(map, "login.html"); //maybe response.redirect
                     }
                     else {
                         User user = userList.get(username);
@@ -50,6 +50,15 @@ public class Main {
                     Session session = request.session();
                     session.attribute("username", name);
 
+                    response.redirect("/");
+                    return "";
+                }
+        );
+        Spark.post(
+                "/logout",
+                (request, response) -> {
+                    Session session = request.session();
+                    session.invalidate();
                     response.redirect("/");
                     return "";
                 }
