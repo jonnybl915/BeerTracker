@@ -4,6 +4,8 @@ import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
 import spark.template.mustache.MustacheTemplateEngine;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Main {
@@ -23,9 +25,9 @@ public class Main {
                         return new ModelAndView(map, "login.html"); //maybe response.redirect
                     }
                     else {
-                        User user = userList.get(username);
+                        ArrayList<Beer> beerList = userList.get(username).beerList;
                         map.put("name", username);
-                        map.put("beers", user.beerList);
+                        map.put("beers", beerList);
                         return new ModelAndView(map, "beerList.html");
                     }
                 },
@@ -68,23 +70,19 @@ public class Main {
                 (request, response) -> {
                     Session session = request.session();
                     String username = session.attribute("username");
-                    HashMap map = new HashMap();
+                   // HashMap map = new HashMap();
+                    User user = userList.get(username);
                     if(username == null){
                         throw new Exception("you must log in first");
                     }
-                    String beerName = request.queryParams("beerName");
-                    String breweryName = request.queryParams("breweryName");
-                    String beerStyle = request.queryParams("beerStyle");
-                    int abv = Integer.valueOf(request.queryParams("abv"));
-                    int ibu = Integer.valueOf(request.queryParams("ibu"));
-                    String comment = request.queryParams("comment");
-                    Beer beer = new Beer(beerName, breweryName, beerStyle, abv, ibu, comment);
-
-                    User user = userList.get(username);
-                    if(user == null){
-                        throw new Exception("you must log in first");
-                    }
-                    map.put(beer, user.beerList);
+                    Beer beer = new Beer();
+                    beer.setBeerName(request.queryParams("beerName"));
+                    beer.setBreweryName(request.queryParams("breweryName"));
+                    beer.setBeerStyle(request.queryParams("beerStyle"));
+                    beer.setAbv(Float.valueOf(request.queryParams("abv")));
+                    beer.setComment(request.queryParams("comment"));
+                    //map.put(beer, user.beerList);
+                    user.beerList.add(beer);
                     response.redirect("/");
                     return "";
                 }
