@@ -63,5 +63,31 @@ public class Main {
                     return "";
                 }
         );
+        Spark.post(
+                "/create-entry",
+                (request, response) -> {
+                    Session session = request.session();
+                    String username = session.attribute("username");
+                    HashMap map = new HashMap();
+                    if(username == null){
+                        throw new Exception("you must log in first");
+                    }
+                    String beerName = request.queryParams("beerName");
+                    String breweryName = request.queryParams("breweryName");
+                    String beerStyle = request.queryParams("beerStyle");
+                    int abv = Integer.valueOf(request.queryParams("abv"));
+                    int ibu = Integer.valueOf(request.queryParams("ibu"));
+                    String comment = request.queryParams("comment");
+                    Beer beer = new Beer(beerName, breweryName, beerStyle, abv, ibu, comment);
+
+                    User user = userList.get(username);
+                    if(user == null){
+                        throw new Exception("you must log in first");
+                    }
+                    map.put(beer, user.beerList);
+                    response.redirect("/");
+                    return "";
+                }
+        );
     }
 }
