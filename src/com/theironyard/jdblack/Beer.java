@@ -10,6 +10,7 @@ public class Beer {
     float abv;
     String comment;
     int id;
+
     public Beer(String beerName, String breweryName, String beerStyle, float abv, String comment, int id) {
         this.beerName = beerName;
         this.breweryName = breweryName;

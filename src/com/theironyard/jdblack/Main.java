@@ -80,6 +80,7 @@ public class Main {
                     beer.setBeerStyle(request.queryParams("beerStyle"));
                     beer.setAbv(Float.valueOf(request.queryParams("abv"))); //need to allow for this field to be empty
                     beer.setComment(request.queryParams("comment"));
+                    beer.setId(user.beerList.size());
                     user.beerList.add(beer);
                     response.redirect("/");
                     return "";
@@ -88,18 +89,21 @@ public class Main {
         Spark.post(
                 "/delete-entryItem",
                 (request, response) -> {
+                    int id = (Integer.valueOf(request.queryParams("id")));
+
                     Session session = request.session();
                     String username = session.attribute("username");
                     User user = userList.get(username);
                     if(username == null){
                         throw new Exception("you must log in first");
                     }
-                    int entryItemIndex = Integer.valueOf(request.queryParams("id"));
-                    if (entryItemIndex < 0 || entryItemIndex - 1 >= user.beerList.size()){
-                        throw new Exception("Invalid id");
-                    }
-                    user.beerList.remove(entryItemIndex -1);
+                    user.beerList.remove(id);
 
+                    int indexValue = 0;
+                    for (Beer beer : user.beerList){
+                        beer.setId(indexValue);
+                        indexValue++;
+                    }
                     response.redirect("/");
                     return "";
                 }
