@@ -108,5 +108,24 @@ public class Main {
                     return "";
                 }
         );
+        Spark.get(
+                "/edit-entry",
+                (request, response) -> {
+
+                    Session session = request.session();
+                    String username = session.attribute("username");
+
+                    User user = userList.get(username);
+                    if(username == null) {
+                        throw new Exception("you must log in first");
+                    }
+                    int id = (Integer.valueOf(request.queryParams("id")));
+                    HashMap map = new HashMap();
+                    Beer beer = user.beerList.get(id);
+                    map.put("beer", beer);
+                    return new ModelAndView(map, "editBeer.html");
+                },
+                new MustacheTemplateEngine()
+        );
     }
 }

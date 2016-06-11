@@ -14,7 +14,7 @@ Welcome {{name}}!       <button type="submit">Logout</button>
     <input type="text" name="breweryName" placeholder="Brewery Name"/>
     <input type="text" name="beerStyle" placeholder="Style of Beer"/>
     <input type="number" name="abv" placeholder="abv"/>
-    <input type="text" name="comment" placeholder="Anything else?"/>
+    <input type="text" name="comment" placeholder="Comments?"/>
     <input type="hidden" name="id" value="{{id}}"/>
     <button type="submit">Create Entry</button>
 </form>
@@ -23,9 +23,15 @@ Welcome {{name}}!       <button type="submit">Logout</button>
     {{#beers}}
     <li>
         {{beerName}} {{breweryName}} {{beerStyle}} {{abv}} {{comment}}
-        <form action="/delete-entryItem" method="post">
+        <form action="/delete-entryItem" method="post" style="inline-block;">
         <input type="hidden" name="id" value="{{id}}"/>
         <button type="submit">Delete</button> </form>
+
+        <form action="/edit-entry" method="post">
+            <input type="hidden" name="id" value="{{id}}"/>
+            <a href="/edit-entry?id={{id}}" style="inline-block;">Edit Entry</a>
+
+        </form>
     </li>
     {{/beers}}
 </ol>
