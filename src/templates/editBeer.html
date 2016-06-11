@@ -7,12 +7,12 @@
 <body>
 
 {{beerName}} {{breweryName}} {{beerStyle}} {{abv}} {{comment}}
-<form action="/edit-entry" method="post">
-    <input type="text" name="beerName" placeholder="Update Beer Name"/>
-    <input type="text" name="breweryName" placeholder="Update Brewery Name"/>
-    <input type="text" name="beerStyle" placeholder="Update Style of Beer"/>
-    <input type="number" name="abv" placeholder="Update abv"/>
-    <input type="text" name="comment" placeholder="Update Comment"/>
+<form action="/update-entry" method="post">
+    <input type="text" name="newBeerName" placeholder="Update Beer Name"/>
+    <input type="text" name="newBreweryName" placeholder="Update Brewery Name"/>
+    <input type="text" name="newBeerStyle" placeholder="Update Style of Beer"/>
+    <input type="number" name="newAbv" placeholder="Update abv"/>
+    <input type="text" name="newComment" placeholder="Update Comment"/>
     <input type="hidden" name="id" value="{{id}}"/>
     <button type="submit">Update Entry</button>
 

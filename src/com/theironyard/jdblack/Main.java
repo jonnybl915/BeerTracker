@@ -127,5 +127,26 @@ public class Main {
                 },
                 new MustacheTemplateEngine()
         );
+        Spark.post(
+                "/update-entry",
+                (request, response) -> {
+                    Session session = request.session();
+                    String username = session.attribute("username");
+                    User user = userList.get(username);
+                    if(username == null){
+                        throw new Exception("you must log in first");
+                    }
+                    String editBeerName = request.queryParams("newBeerName");
+                    String editBreweryName = request.queryParams("newBreweryName");
+                    String editBeerStyle = request.queryParams("newBeerStyle");
+                    float editAbv = Float.valueOf(request.queryParams("newAbv"));
+                    String editComment = request.queryParams("newComment");
+                    int id = (Integer.valueOf(request.queryParams("id")));
+                    user.beerList.set(id, new Beer(editBeerName, editBreweryName, editBeerStyle, editAbv, editComment, id));
+
+                    response.redirect("/");
+                    return "";
+                }
+        );
     }
 }
