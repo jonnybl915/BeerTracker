@@ -123,11 +123,12 @@ public class Main {
                     HashMap map = new HashMap();
                     Beer beer = user.beerList.get(id);
                     map.put("beer", beer);
-                    return new ModelAndView(map, "editBeer.html");
+
+                    return new ModelAndView(map, "updateBeer.html");
                 },
                 new MustacheTemplateEngine()
         );
-        Spark.post(
+        Spark.patch(
                 "/update-entry",
                 (request, response) -> {
                     Session session = request.session();
@@ -136,15 +137,16 @@ public class Main {
                     if(username == null){
                         throw new Exception("you must log in first");
                     }
-                    String editBeerName = request.queryParams("newBeerName");
-                    String editBreweryName = request.queryParams("newBreweryName");
-                    String editBeerStyle = request.queryParams("newBeerStyle");
-                    float editAbv = Float.valueOf(request.queryParams("newAbv"));
-                    String editComment = request.queryParams("newComment");
                     int id = (Integer.valueOf(request.queryParams("id")));
-                    user.beerList.set(id, new Beer(editBeerName, editBreweryName, editBeerStyle, editAbv, editComment, id));
+                    user.beerList.get(id);
 
-                    response.redirect("/");
+//                    String editBeerName = request.queryParams("newBeerName");
+//                    String editBreweryName = request.queryParams("newBreweryName");
+//                    String editBeerStyle = request.queryParams("newBeerStyle");
+//                    float editAbv = Float.valueOf(request.queryParams("newAbv"));
+//                    String editComment = request.queryParams("newComment");
+//                    user.beerList.set(id, new Beer(editBeerName, editBreweryName, editBeerStyle, editAbv, editComment, id));
+                    response.redirect(request.headers("Referer"));
                     return "";
                 }
         );

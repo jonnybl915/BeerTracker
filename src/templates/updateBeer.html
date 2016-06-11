@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Beer</title>
+</head>
+<body>
+<form action="/update-entry" method="post">
+    <input type="text" value="{{beer.beerName}}" name="newBeerName" placeholder="Update Beer Name"/>
+    <input type="text" value="{{beer.breweryName}}" name="newBreweryName" placeholder="Update Brewery Name"/>
+    <input type="text" value="{{beer.beerStyle}}" name="newBeerStyle" placeholder="Update Style of Beer"/>
+    <input type="number" value="{{beer.abv}}" name="newAbv" placeholder="Update abv"/>
+    <input type="text" value="{{beer.comment}}" name="newComment" placeholder="Update Comment"/>
+    <input type="hidden" name="id" value="{{id}}"/>
+    <button type="submit">Update Entry</button>
+
+</form>
+</body>
+</html>
