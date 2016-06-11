@@ -139,11 +139,11 @@ public class Main {
                     }
                     int id = Integer.valueOf(request.queryParams("id"));
                     Beer beer = user.beerList.get(id);
-                    beer.setBeerName("beer.beerName");
-                    beer.setBreweryName("beer.breweryName");
-                    beer.setBeerStyle("beer.beerStyle");
-                    beer.setAbv(Float.valueOf("beer.abv"));
-                    beer.setComment("beer.comment");
+                    beer.setBeerName(request.queryParams("newBeerName"));
+                    beer.setBreweryName(request.queryParams("newBreweryName"));
+                    beer.setBeerStyle(request.queryParams("newBeerStyle"));
+                    beer.setAbv(Float.valueOf(request.queryParams("newAbv")));
+                    beer.setComment(request.queryParams("newComment"));
                     response.redirect("/");
                     return "";
                 }
