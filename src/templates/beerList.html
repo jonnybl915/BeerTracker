@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>My Beer</title>
+    <style>
+        form {display: inline-block;}
+    </style>
 </head>
 <body>
 <form action="/logout" method="post" style="inline-block;">
@@ -23,14 +26,13 @@ Welcome {{name}}!       <button type="submit">Logout</button>
     {{#beers}}
     <li>
         {{beerName}} {{breweryName}} {{beerStyle}} {{abv}} {{comment}}
-        <form action="/delete-entryItem" method="post" style="inline-block;">
+        <form action="/delete-entryItem" method="post" style="inline-block !important;">
         <input type="hidden" name="id" value="{{id}}"/>
         <button type="submit">Delete</button> </form>
 
-        <form action="/edit-entry" method="post">
+        <form action="/edit-entry" method="post" style="inline-block;">
             <input type="hidden" name="id" value="{{id}}"/>
-            <a href="/edit-entry?id={{id}}" style="inline-block;">Edit Entry</a>
-
+            <a href="/edit-entry?id={{id}}">Edit Entry</a>
         </form>
     </li>
     {{/beers}}
