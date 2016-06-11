@@ -137,7 +137,7 @@ public class Main {
                     if(username == null) {
                         throw new Exception("you must log in first");
                     }
-                    int id = Integer.valueOf(request.queryParams("beer.id"));
+                    int id = Integer.valueOf(request.queryParams("id"));
                     Beer beer = user.beerList.get(id);
                     beer.setBeerName("beer.beerName");
                     beer.setBreweryName("beer.breweryName");
