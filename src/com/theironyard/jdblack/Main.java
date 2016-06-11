@@ -134,23 +134,16 @@ public class Main {
                     Session session = request.session();
                     String username = session.attribute("username");
                     User user = userList.get(username);
-                    if(username == null){
+                    if(username == null) {
                         throw new Exception("you must log in first");
                     }
-                    int id = (Integer.valueOf(request.queryParams("beer.id")));
+                    int id = Integer.valueOf(request.queryParams("beer.id"));
                     Beer beer = user.beerList.get(id);
                     beer.setBeerName("beer.beerName");
                     beer.setBreweryName("beer.breweryName");
                     beer.setBeerStyle("beer.beerStyle");
                     beer.setAbv(Float.valueOf("beer.abv"));
                     beer.setComment("beer.comment");
-
-//                    String editBeerName = request.queryParams("newBeerName");
-//                    String editBreweryName = request.queryParams("newBreweryName");
-//                    String editBeerStyle = request.queryParams("newBeerStyle");
-//                    float editAbv = Float.valueOf(request.queryParams("newAbv"));
-//                    String editComment = request.queryParams("newComment");
-//                    user.beerList.set(id, new Beer(editBeerName, editBreweryName, editBeerStyle, editAbv, editComment, id));
                     response.redirect("/");
                     return "";
                 }
