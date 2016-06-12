@@ -25,7 +25,7 @@ Welcome {{name}}!       <button type="submit">Logout</button>
 <ol>
     {{#beers}}
     <li>
-        {{beerName}} {{breweryName}} {{beerStyle}} {{abv}} {{comment}}
+        {{beerName}} <img src="" alt="some_text"> {{breweryName}} {{beerStyle}} {{abv}} {{comment}}
         <form action="/delete-entryItem" method="post" style="inline-block !important;">
         <input type="hidden" name="id" value="{{id}}"/>
         <button type="submit">Delete</button> </form>
