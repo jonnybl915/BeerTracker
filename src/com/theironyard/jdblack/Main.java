@@ -48,7 +48,8 @@ public class Main {
                         userList.put(name, user);
                     }
                     else if(!pass.equals(user.password)) {
-                        throw new Exception("Wrong Password"); //make this redirect***
+                        HashMap map = new HashMap();
+                        return new ModelAndView(map, "login.html"); //make this redirect***
                     }
                     Session session = request.session();
                     session.attribute("username", name);

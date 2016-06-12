@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" type="text/css" href="theme.css">
     <meta charset="UTF-8">
     <title>Edit Beer</title>
 </head>
 <body>
+<form action="/logout" method="post">
+    <label class="logoutLblPos">
+        <button type="submit" style="inline-block;">Logout</button>
+    </label>
+</form>
 {{#beer}}
 <form action="/update-entry" method="post">
     <input type="text" value="{{beer.beerName}}" name="newBeerName" placeholder="Update Beer Name"/>
@@ -16,5 +22,9 @@
     <button type="submit">Update Entry</button>
 </form>
 {{/beer}}
+
+<form>
+
+</form>
 </body>
 </html>

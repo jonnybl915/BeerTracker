@@ -1,10 +1,20 @@
 body {
     background-color : #FFB901;
 }
+
 button {
- display: inline-block;
- height: 20px;
- width: 55px;
+
  background: #E4DEC6;
  border: 2px solid rgba(33, 68, 72, 0.59);
+}
+
+h1 {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+.logoutLblPos{
+
+   position:fixed;
+   right:10px;
+   top:5px;
 }
