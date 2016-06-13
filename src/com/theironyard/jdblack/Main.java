@@ -39,7 +39,7 @@ public class Main {
                 (request, response) -> {
                     String name = request.queryParams("username");
                     String pass = request.queryParams("password");
-                    if (name == null || pass == null){
+                    if (name == null || pass == null || name.isEmpty() || pass.isEmpty()){
                         response.redirect("/");
                     }
                     User user = userList.get(name);
