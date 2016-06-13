@@ -40,7 +40,8 @@ public class Main {
                     String name = request.queryParams("username");
                     String pass = request.queryParams("password");
                     if (name == null || pass == null || name.isEmpty() || pass.isEmpty()){
-                        response.redirect("/");
+                        HashMap map = new HashMap();
+                        return new ModelAndView(map, "login.html");
                     }
                     User user = userList.get(name);
                     if (user == null) {

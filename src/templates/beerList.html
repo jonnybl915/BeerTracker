@@ -29,13 +29,13 @@
 
 <ol>
     {{#beers}}
-    <li>
+    <li style="inline-block">
         {{beerName}} &nbsp {{breweryName}} &nbsp {{beerStyle}} &nbsp{{abv}} &nbsp {{comment}}
         <form action="/delete-entryItem" method="post">
         <input type="hidden" name="id" value="{{id}}"/>
-        <button type="submit">Delete</button> </form>
+        <button type="submit" style="inline-block;">Delete</button> </form>
 
-        <form action="/edit-entry" method="post">
+        <form action="/edit-entry" method="post" style="inline-block;">
             <input type="hidden" name="id" value="{{id}}"/>
             <a href="/edit-entry?id={{id}}">Edit Entry</a>
         </form>
