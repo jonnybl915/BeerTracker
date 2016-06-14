@@ -4,20 +4,21 @@ package com.theironyard.jdblack;
  * Created by jonathandavidblack on 6/9/16.
  */
 public class Beer {
+    int id;
     String beerName;
     String breweryName;
     String beerStyle;
     float abv;
     String comment;
-    int id;
 
-    public Beer(String beerName, String breweryName, String beerStyle, float abv, String comment, int id) {
+    public Beer(int id, String beerName, String breweryName, String beerStyle, float abv, String comment) {
+        this.id = id;
         this.beerName = beerName;
         this.breweryName = breweryName;
         this.beerStyle = beerStyle;
         this.abv = abv;
         this.comment = comment;
-        this.id = id;
+
     }
 
     public Beer() {

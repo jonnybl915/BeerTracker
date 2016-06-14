@@ -18,3 +18,6 @@ h1 {
    right:10px;
    top:5px;
 }
+.deleteLblPos{
+display: inline-block;
+}

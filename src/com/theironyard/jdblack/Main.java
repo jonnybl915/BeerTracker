@@ -1,10 +1,12 @@
 package com.theironyard.jdblack;
 
+import org.h2.tools.Server;
 import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
 import spark.template.mustache.MustacheTemplateEngine;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,9 +14,39 @@ public class Main {
 
     static HashMap<String, User> userList = new HashMap<>();
 
-    public static void main(String[] args) {
+    public static void createTables(Connection conn) throws SQLException {
+        Statement stmt = conn.createStatement();
+        stmt.execute("CREATE TABLE IF NOT EXISTS users (id IDENTITY, username VARCHAR, password VARCHAR)");
+        stmt.execute("CREATE TABLE IF NOT EXISTS beers(id IDENTITY, beerName VARCHAR, breweryName VARCHAR, beerStyle VARCHAR, abv INT, comment VARCHAR, user_id INT)");
+    }
+    public static void insertUser(Connection conn, String username, String password) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO users VALUES (NULL, ?, ?)");
+        stmt.setString(1, username);
+        stmt.setString(2, password);
+        stmt.execute();
+    }
+    public static User selectUser(Connection conn, String username) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM users WHERE username = ?");
+        stmt.setString(1, username);
+        ResultSet results = stmt.executeQuery();
+        if (results.next()) {
+            int id = results.getInt("id");
+            String password = results.getString("password");
+            return new User(id, username, password);
+        }
+        return null;
+    }
+
+
+
+    public static void main(String[] args) throws SQLException {
+        Server.createWebServer().start();
+        Connection conn = DriverManager.getConnection("jdbc:h2:./main");
+
         Spark.staticFileLocation("public");
         Spark.init();
+        createTables(conn);
+
         Spark.get(
                 "/",
                 (request, response) -> {
@@ -54,7 +86,6 @@ public class Main {
                     }
                     Session session = request.session();
                     session.attribute("username", name);
-
                     response.redirect("/");
                     return "";
                 }
