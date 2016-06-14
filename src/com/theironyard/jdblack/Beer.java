@@ -8,10 +8,10 @@ public class Beer {
     String beerName;
     String breweryName;
     String beerStyle;
-    float abv;
+    int abv;
     String comment;
 
-    public Beer(int id, String beerName, String breweryName, String beerStyle, float abv, String comment) {
+    public Beer(int id, String beerName, String breweryName, String beerStyle, int abv, String comment) {
         this.id = id;
         this.beerName = beerName;
         this.breweryName = breweryName;
@@ -20,6 +20,7 @@ public class Beer {
         this.comment = comment;
 
     }
+
 
     public Beer() {
 
@@ -57,11 +58,11 @@ public class Beer {
         this.beerStyle = beerStyle;
     }
 
-    public float getAbv() {
+    public int getAbv() {
         return abv;
     }
 
-    public void setAbv(float abv) {
+    public void setAbv(int abv) {
         this.abv = abv;
     }
     public String getComment() {

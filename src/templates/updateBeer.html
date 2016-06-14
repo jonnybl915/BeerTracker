@@ -13,12 +13,12 @@
 </form>
 {{#beer}}
 <form action="/update-entry" method="post">
-    <input type="text" value="{{beer.beerName}}" name="newBeerName" placeholder="Update Beer Name"  STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="text" value="{{beer.breweryName}}" name="newBreweryName" placeholder="Update Brewery Name" STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="text" value="{{beer.beerStyle}}" name="newBeerStyle" placeholder="Update Style of Beer"  STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="number" value="{{beer.abv}}" name="newAbv" placeholder="Update abv" STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="text" value="{{beer.comment}}" name="newComment" placeholder="Update Comment" STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="hidden" name="id" value="{{beer.id}}"/>
+    <input type="text" value="{{beerName}}" name="beerName" placeholder="Update Beer Name"  STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
+    <input type="text" value="{{breweryName}}" name="breweryName" placeholder="Update Brewery Name" STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
+    <input type="text" value="{{beerStyle}}" name="beerStyle" placeholder="Update Style of Beer"  STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
+    <input type="number" value="{{abv}}" name="abv" placeholder="Update abv" STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
+    <input type="text" value="{{comment}}" name="comment" placeholder="Update Comment" STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
+    <input type="hidden" name="id" value="{{id}}"/>
     <button type="submit">Update Entry</button>
 </form>
 {{/beer}}

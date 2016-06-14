@@ -13,8 +13,6 @@ import java.util.HashMap;
 
 public class Main {
 
-    static HashMap<String, User> userList = new HashMap<>();
-
     public static void createTables(Connection conn) throws SQLException {
         Statement stmt = conn.createStatement();
         stmt.execute("CREATE TABLE IF NOT EXISTS users (id IDENTITY, username VARCHAR, password VARCHAR)");
@@ -48,10 +46,11 @@ public class Main {
         stmt.execute();
     }
     public static Beer selectBeer(Connection conn, int id) throws SQLException {
-        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM beers INNER JOIN users ON beers.user_id = users.id WHERE users.id = ?");
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM beers INNER JOIN users ON beers.user_id = users.id WHERE beers.id = ?");
         stmt.setInt(1, id);
         ResultSet results = stmt.executeQuery();
         if (results.next()) {
+
             String beerName = results.getString("beers.beerName");
             String breweryName = results.getString("beers.breweryName");
             String beerStyle = results.getString("beers.beerStyle");
@@ -67,12 +66,13 @@ public class Main {
         ResultSet results = stmt.executeQuery();
         ArrayList<Beer> beerList = new ArrayList<>();
         while (results.next()) {
+            int beerId = results.getInt("beers.id");
             String beerName = results.getString("beers.beerName");
             String breweryName = results.getString("beers.breweryName");
             String beerStyle = results.getString("beers.beerStyle");
             int abv = results.getInt("beers.abv");
             String comment = results.getString("beers.comment");
-            Beer beer = new Beer(id, beerName, breweryName, beerStyle, abv, comment);
+            Beer beer = new Beer(beerId, beerName, breweryName, beerStyle, abv, comment);
             beerList.add(beer);
         }
         return beerList;
@@ -110,13 +110,16 @@ public class Main {
                 (request, response) -> {
                     Session session = request.session();
                     String username = session.attribute("username");
+                    String password = session.attribute("password");
+                    //int id = Integer.valueOf(request.queryParams("id"));
 
                     HashMap map = new HashMap();
                     if (username == null){
                         return new ModelAndView(map, "login.html"); //maybe response.redirect
                     }
                     else {
-                        ArrayList<Beer> beerList = userList.get(username).beerList;
+                        User user = selectUser(conn, username);
+                        ArrayList<Beer> beerList = selectBeers(conn, user.id);
                         map.put("name", username);
                         map.put("beers", beerList);
                         return new ModelAndView(map, "beerList.html");
@@ -133,10 +136,12 @@ public class Main {
                         HashMap map = new HashMap();
                         return new ModelAndView(map, "login.html");
                     }
-                    User user = userList.get(name);
+                    //User user = userList.get(name);
+                    User user = selectUser(conn, name);
                     if (user == null) {
-                        user = new User(name, pass);
-                        userList.put(name, user);
+                        //user = new User(name, pass);
+                        insertUser(conn, name, pass);
+                        //userList.put(name, user);
                     }
                     else if(!pass.equals(user.password)) {
                         HashMap map = new HashMap();
@@ -162,18 +167,28 @@ public class Main {
                 (request, response) -> {
                     Session session = request.session();
                     String username = session.attribute("username");
-                    User user = userList.get(username);
+                    User user = selectUser(conn, username);
                     if(username == null){
                         throw new Exception("you must log in first");
                     }
-                    Beer beer = new Beer();
-                    beer.setBeerName(request.queryParams("beerName"));
-                    beer.setBreweryName(request.queryParams("breweryName"));
-                    beer.setBeerStyle(request.queryParams("beerStyle"));
-                    beer.setAbv(Float.valueOf(request.queryParams("abv"))); //need to allow for this field to be empty
-                    beer.setComment(request.queryParams("comment"));
-                    beer.setId(user.beerList.size());
-                    user.beerList.add(beer);
+                    //int id = Integer.valueOf(request.queryParams("id"));
+                    String beerName = request.queryParams("beerName");
+                    String breweryName = request.queryParams("breweryName");
+                    String beerStyle = request.queryParams("beerStyle");
+                    int abv = Integer.valueOf(request.queryParams("abv"));
+                    String comment = request.queryParams("comment");
+                  //  int id = Integer.valueOf(request.queryParams("id"));
+
+                   // int id = (Integer.valueOf(request.queryParams("id")));
+                    //Beer beer = selectBeer(conn, id);
+//                    beer.setBeerName(request.queryParams("beerName"));
+//                    beer.setBreweryName(request.queryParams("breweryName"));
+//                    beer.setBeerStyle(request.queryParams("beerStyle"));
+//                    beer.setAbv(Float.valueOf(request.queryParams("abv"))); //need to allow for this field to be empty
+//                    beer.setComment(request.queryParams("comment"));
+//                    beer.setId(user.beerList.size());
+//                    user.beerList.add(beer);
+                    insertBeer(conn, beerName, breweryName, beerStyle, abv, comment, user.id);
                     response.redirect("/");
                     return "";
                 }
@@ -181,21 +196,22 @@ public class Main {
         Spark.post(
                 "/delete-entryItem",
                 (request, response) -> {
-                    int id = (Integer.valueOf(request.queryParams("id")));
 
                     Session session = request.session();
                     String username = session.attribute("username");
-                    User user = userList.get(username);
+                   // User user = userList.get(username);
                     if(username == null){
                         throw new Exception("you must log in first");
                     }
-                    user.beerList.remove(id);
+                    int id = Integer.valueOf(request.queryParams("id"));
 
-                    int indexValue = 0;
-                    for (Beer beer : user.beerList){
-                        beer.setId(indexValue);
-                        indexValue++;
-                    }
+                    //user.beerList.remove(id);
+                    deleteBeer(conn, id);
+//                    int indexValue = 0;
+//                    for (Beer beer : user.beerList){
+//                        beer.setId(indexValue);
+//                        indexValue++;
+//                    }
                     response.redirect("/");
                     return "";
                 }
@@ -207,13 +223,13 @@ public class Main {
                     Session session = request.session();
                     String username = session.attribute("username");
 
-                    User user = userList.get(username);
+                    User user = selectUser(conn, username);
                     if(username == null) {
                         throw new Exception("you must log in first");
                     }
                     int id = (Integer.valueOf(request.queryParams("id")));
                     HashMap map = new HashMap();
-                    Beer beer = user.beerList.get(id);
+                    Beer beer = selectBeer(conn, id);
                     map.put("beer", beer);
 
                     return new ModelAndView(map, "updateBeer.html");
@@ -225,17 +241,24 @@ public class Main {
                 (request, response) -> {
                     Session session = request.session();
                     String username = session.attribute("username");
-                    User user = userList.get(username);
+                    User user = selectUser(conn, username);
+                    String beerName = request.queryParams("beerName");
+                    String breweryName = request.queryParams("breweryName");
+                    String beerStyle = request.queryParams("beerStyle");
+                    int abv = Integer.valueOf(request.queryParams("abv"));
+                    String comment = request.queryParams("comment");
+                    int id = Integer.valueOf(request.queryParams("id"));
                     if(username == null) {
                         throw new Exception("you must log in first");
                     }
-                    int id = Integer.valueOf(request.queryParams("id"));
-                    Beer beer = user.beerList.get(id);
-                    beer.setBeerName(request.queryParams("newBeerName"));
-                    beer.setBreweryName(request.queryParams("newBreweryName"));
-                    beer.setBeerStyle(request.queryParams("newBeerStyle"));
-                    beer.setAbv(Float.valueOf(request.queryParams("newAbv")));
-                    beer.setComment(request.queryParams("newComment"));
+                   // int id = Integer.valueOf(request.queryParams("id"));
+//                    Beer beer = user.beerList.get(id);
+//                    beer.setBeerName(request.queryParams("newBeerName"));
+//                    beer.setBreweryName(request.queryParams("newBreweryName"));
+//                    beer.setBeerStyle(request.queryParams("newBeerStyle"));
+//                    beer.setAbv(Float.valueOf(request.queryParams("newAbv")));
+//                    beer.setComment(request.queryParams("newComment"));
+                    updateBeer(conn, beerName, breweryName, beerStyle, abv, comment, id);
                     response.redirect("/");
                     return "";
                 }
