@@ -1,6 +1,7 @@
 package com.theironyard.jdblack;
 
 import org.h2.tools.Server;
+import org.h2.util.Permutations;
 import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
@@ -33,6 +34,30 @@ public class Main {
             int id = results.getInt("id");
             String password = results.getString("password");
             return new User(id, username, password);
+        }
+        return null;
+    }
+    public static void insertBeer(Connection conn, String beerName, String breweryName, String beerStyle, int abv, String comment, int user_id) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("INSERT INTO beers VALUES (NULL, ?, ?, ?, ?, ?, ?)");
+        stmt.setString(1, beerName);
+        stmt.setString(2, breweryName);
+        stmt.setString(3, beerStyle);
+        stmt.setInt(4, abv);
+        stmt.setString(5, comment);
+        stmt.setInt(6, user_id);
+        stmt.execute();
+    }
+    public static Beer selectBeer(Connection conn, int id) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM beers INNER JOIN users ON beers.user_id = users.id WHERE users.id = ?");
+        stmt.setInt(1, id);
+        ResultSet results = stmt.executeQuery();
+        if (results.next()) {
+            String beerName = results.getString("beers.beerName");
+            String breweryName = results.getString("beers.breweryName");
+            String beerStyle = results.getString("beers.beerStyle");
+            int abv = results.getInt("beers.abv");
+            String comment = results.getString("beers.comment");
+            return new Beer(id, beerName, breweryName, beerStyle, abv, comment);
         }
         return null;
     }
