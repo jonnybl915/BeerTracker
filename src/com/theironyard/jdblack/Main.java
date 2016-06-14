@@ -77,6 +77,23 @@ public class Main {
         }
         return beerList;
     }
+    public static Beer updateBeer(Connection conn, String beerName, String breweryName, String beerStyle, int abv, String comment, int id) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("Update beers SET beerName = ?, breweryName = ?, beerStyle = ?, abv = ?, comment = ? WHERE id = ?");
+        stmt.setString(1, beerName);
+        stmt.setString(2, breweryName);
+        stmt.setString(3, beerStyle);
+        stmt.setInt(4, abv);
+        stmt.setString(5, comment);
+        stmt.setInt(6, id);
+        stmt.execute();
+        return new Beer(id, beerName, breweryName, beerStyle, abv, comment);
+    }
+
+    public static void deleteBeer(Connection conn, int id) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("DELETE FROM beers WHERE id = ?");
+        stmt.setInt(1, id);
+        stmt.execute();
+    }
 
 
 

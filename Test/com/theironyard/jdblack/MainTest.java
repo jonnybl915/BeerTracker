@@ -19,6 +19,7 @@ public class MainTest {
         Main.createTables(conn);
         return conn;
     }
+
     @Test
     public void testUser() throws SQLException {
         Connection conn = startConnection();
@@ -27,6 +28,7 @@ public class MainTest {
         conn.close();
         assertTrue(user != null);
     }
+
     @Test
     public void testBeer() throws SQLException {
         Connection conn = startConnection();
@@ -36,6 +38,7 @@ public class MainTest {
         conn.close();
         assertTrue(testBeer != null);
     }
+
     @Test
     public void testSelect() throws SQLException {
         Connection conn = startConnection();
@@ -55,4 +58,27 @@ public class MainTest {
         assertTrue(testList.size() == 2);
     }
 
+    @Test
+    public void testUpdate() throws SQLException {
+        Connection conn = startConnection();
+        Main.insertUser(conn, "Charlie", "");
+
+        Main.insertBeer(conn, "testName", "testBrewery", "testStyle", 5, "testComment", 1);
+        Main.updateBeer(conn, "newName", "newBrewery", "testStyle", 3, "newComment", 1);
+        Beer testBeer = Main.selectBeer(conn, 1);
+        conn.close();
+        assertTrue(testBeer.beerName.equals("newName"));
+        assertTrue(testBeer.breweryName.equals("newBrewery"));
+    }
+
+    @Test
+    public void testDeleteMessage() throws SQLException {
+        Connection conn = startConnection();
+        Main.insertUser(conn, "Alice", "");
+        Main.insertBeer(conn, "testName", "testBrewery", "testStyle", 5, "testComment", 1);
+        Main.deleteBeer(conn, 1);
+        Beer beer = Main.selectBeer(conn, 1);
+        conn.close();
+        assertTrue(beer == null);
+    }
 }
