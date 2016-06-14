@@ -61,6 +61,22 @@ public class Main {
         }
         return null;
     }
+    public static ArrayList<Beer> selectBeers(Connection conn, int id) throws SQLException {
+        PreparedStatement stmt = conn.prepareStatement("SELECT * FROM beers INNER JOIN users ON beers.user_id = users.id WHERE beers.user_id = ?");
+        stmt.setInt(1, id);
+        ResultSet results = stmt.executeQuery();
+        ArrayList<Beer> beerList = new ArrayList<>();
+        while (results.next()) {
+            String beerName = results.getString("beers.beerName");
+            String breweryName = results.getString("beers.breweryName");
+            String beerStyle = results.getString("beers.beerStyle");
+            int abv = results.getInt("beers.abv");
+            String comment = results.getString("beers.comment");
+            Beer beer = new Beer(id, beerName, breweryName, beerStyle, abv, comment);
+            beerList.add(beer);
+        }
+        return beerList;
+    }
 
 
 

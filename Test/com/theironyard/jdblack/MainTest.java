@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -26,4 +27,32 @@ public class MainTest {
         conn.close();
         assertTrue(user != null);
     }
+    @Test
+    public void testBeer() throws SQLException {
+        Connection conn = startConnection();
+        Main.insertUser(conn, "Alice", "");
+        Main.insertBeer(conn, "testBeerName", "testBreweryName", "testBeerStyle", 5, "testComment", 1);
+        Beer testBeer = Main.selectBeer(conn, 1);
+        conn.close();
+        assertTrue(testBeer != null);
+    }
+    @Test
+    public void testSelect() throws SQLException {
+        Connection conn = startConnection();
+
+        Main.insertUser(conn, "Alice", "");
+        Main.insertUser(conn, "Bob", "");
+
+        User alice = Main.selectUser(conn, "Alice");
+        User bob = Main.selectUser(conn, "Bob");
+
+        Main.insertBeer(conn, "testName", "testBrewery", "testStyle", 5, "testComment", alice.id);
+        Main.insertBeer(conn, "testName2", "testBrewery2", "testStyle2", 3, "testComment2", bob.id);
+        Main.insertBeer(conn, "testName3", "testBrewery3", "testStyle3", 8, "testComment3", bob.id);
+
+        ArrayList<Beer> testList = Main.selectBeers(conn, 2);
+        conn.close();
+        assertTrue(testList.size() == 2);
+    }
+
 }
