@@ -10,6 +10,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static spark.Spark.halt;
+
 public class Main {
 
     public static void createTables(Connection conn) throws SQLException {
@@ -140,8 +142,8 @@ public class Main {
                         insertUser(conn, name, pass);
                     }
                     else if(!pass.equals(user.password)) {
-                        HashMap map = new HashMap();
-                        return new ModelAndView(map, "login.html"); //make this redirect***
+                        halt("Incorrect Username/Password Combination.\n" +
+                                "Please Go Back");
                     }
                     Session session = request.session();
                     session.attribute("username", name);

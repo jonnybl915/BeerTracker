@@ -9,25 +9,26 @@
 <body>
 <br>
 <br>
-<center><h1>{{name}}'s Beer List</h1></center>
+<center><h1> <img src="http://simpleicon.com/wp-content/uploads/beer.png" alt="this stuff" width="60px" height="60px"> {{name}}'s Beer List <img src="http://simpleicon.com/wp-content/uploads/beer.png" alt="this stuff" width="60px" height="60px"></h1> </center>
 
 <form action="/logout" method="post" style="inline-block;">
     <label class="logoutLblPos">
      <button type="submit" style="inline-block;">Logout</button>
     </label>
 </form>
-
+<h3>Add a Beer!</h3>
 <form action="/create-entry" method="post">
-Beer Name:       <input type="text" name="beerName" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
+Beer Name: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp      <input type="text" name="beerName" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
     <br>
-Brewery Name:    <input type="text" name="breweryName" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
+Brewery Name:&nbsp    <input type="text" name="breweryName" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
     <br>
-Beer Style:      <input type="text" name="beerStyle" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
+Beer Style:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp      <input type="text" name="beerStyle" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
     <br>
-abv:             <input type="number" name="abv" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;" />
+abv: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp          <input type="number" name="abv" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;" />
     <br>
-Comments?:       <input type="text" name="comment"  value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
+Comments?:    &nbsp&nbsp&nbsp&nbsp&nbsp   <input type="text" name="comment"  value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
     <input type="hidden" name="id" value="{{id}}"/>
+    <br>
     <br>
     <button type="submit">Create Entry</button>
 </form>
