@@ -18,12 +18,17 @@
 </form>
 
 <form action="/create-entry" method="post">
-    <input type="text" name="beerName" placeholder="Beer Name" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="text" name="breweryName" placeholder="Brewery Name" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="text" name="beerStyle" placeholder="Style of Beer" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="number" name="abv" placeholder="abv" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
-    <input type="text" name="comment" placeholder="Comments?" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black;"/>
+Beer Name:       <input type="text" name="beerName" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
+    <br>
+Brewery Name:    <input type="text" name="breweryName" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
+    <br>
+Beer Style:      <input type="text" name="beerStyle" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
+    <br>
+abv:             <input type="number" name="abv" value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;" />
+    <br>
+Comments?:       <input type="text" name="comment"  value=" " STYLE="color: #FFB901; font-family: Verdana; font-size: 12px; background-color: black; inline-block;"/>
     <input type="hidden" name="id" value="{{id}}"/>
+    <br>
     <button type="submit">Create Entry</button>
 </form>
 

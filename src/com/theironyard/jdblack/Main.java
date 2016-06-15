@@ -1,7 +1,6 @@
 package com.theironyard.jdblack;
 
 import org.h2.tools.Server;
-import org.h2.util.Permutations;
 import spark.ModelAndView;
 import spark.Session;
 import spark.Spark;
@@ -204,7 +203,7 @@ public class Main {
                     Session session = request.session();
                     String username = session.attribute("username");
 
-                    User user = selectUser(conn, username);
+                   // User user = selectUser(conn, username);
                     if(username == null) {
                         throw new Exception("you must log in first");
                     }
